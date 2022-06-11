@@ -14,13 +14,6 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/user', function () {
-    $user = new User();
-    $allUser = $user::all(); 
-    // dd($allUser);
-    return $allUser;
-});
+Route::get('{path?}', function ($path = null) {
+    return view('main');
+})->where('path', '[a-zA-Z0-9-/]+');
