@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,15 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::get('/user', [UsersController::class, 'index']);
-Route::post('/user', [UsersController::class, 'addUser']);
+Route::prefix('auth')->group(function(){
+    Route::get('/get-user-through-cookie', [AuthController::class, 'getUserThroughCookie']);
+    Route::post('/sign-up', [AuthController::class, 'signUp']);
+    Route::post('/sign-in', [AuthController::class, 'signIn']);
+    Route::delete('/sign-out', [AuthController::class, 'signOut']);
+    Route::get('/', [AuthController::class, 'index']);
+});
+
+Route::prefix('posts')->middleware('jwt.auth')->group(function(){
+    Route::get('/', [PostController::class, 'getAllPosts']);
+    // Route::post('/', [PostController::class, 'createPost']);
+});
