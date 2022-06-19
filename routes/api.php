@@ -26,5 +26,5 @@ Route::prefix('auth')->group(function(){
 
 Route::prefix('posts')->middleware('jwt.auth')->group(function(){
     Route::get('/', [PostController::class, 'getAllPosts']);
-    // Route::post('/', [PostController::class, 'createPost']);
+    Route::post('/', [PostController::class, 'createPost']);
 });
